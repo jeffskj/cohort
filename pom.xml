@@ -7,105 +7,11 @@
 	<packaging>war</packaging>
 	<name>Cohort Backup</name>
 	<version>0.1-SNAPSHOT</version>
-	<properties>
-		<weld.version>1.1.1.Final</weld.version>
-		<logback.version>0.9.20</logback.version>
-		<slf4j.version>1.5.11</slf4j.version>
-		<resteasy.version>2.0.1.GA</resteasy.version>
-		<arquillian.version>1.0.0.Alpha5</arquillian.version>
-		<seam.version>3.0.0.Final</seam.version>
-		<hibernate.version>3.6.3.Final</hibernate.version>
-	</properties>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>org.jboss.resteasy</groupId>
-				<artifactId>resteasy-jaxrs</artifactId>
-				<version>${resteasy.version}</version>
-				<exclusions>
-					<exclusion>
-						<groupId>org.slf4j</groupId>
-						<artifactId>slf4j-simple</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
-			<dependency>
-				<groupId>org.jboss.weld</groupId>
-				<artifactId>weld-core-bom</artifactId>
-				<version>${weld.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.jboss.seam</groupId>
-				<artifactId>seam-bom</artifactId>
-				<version>${seam.version}</version>
-				<type>pom</type>
-				<scope>import</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-entitymanager</artifactId>
-				<version>${hibernate.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-core</artifactId>
-				<version>${hibernate.version}</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
 	<dependencies>
-		<dependency>
-			<groupId>javax.enterprise</groupId>
-			<artifactId>cdi-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>jsr250-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>javax.faces</groupId>
-			<artifactId>jsf-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.glassfish.web</groupId>
-			<artifactId>el-impl</artifactId>
-			<version>2.2</version>
-			<scope>runtime</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<version>1.0.0.GA</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
-			<version>4.1.0.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-entitymanager</artifactId>
-			<version>3.6.3.Final</version>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-c3p0</artifactId>
-			<version>${hibernate.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>11.0.2</version>
+			<version>12.0</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -113,14 +19,9 @@
 			<version>2.0</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.6</version>
-		</dependency>
-		<dependency>
-			<groupId>org.bouncycastle</groupId>
-			<artifactId>bcprov-jdk16</artifactId>
-			<version>1.44</version>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -129,120 +30,22 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<version>2.0.0</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxrs</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-jaxb-provider</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>resteasy-cdi</artifactId>
-			<version>${resteasy.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.persistence</groupId>
-			<artifactId>seam-persistence-api</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.persistence</groupId>
-			<artifactId>seam-persistence-impl</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.config</groupId>
-			<artifactId>seam-config-xml</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.faces</groupId>
-			<artifactId>seam-faces</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.seam.solder</groupId>
-			<artifactId>seam-solder</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>2.2.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jasypt</groupId>
-			<artifactId>jasypt</artifactId>
-			<version>1.6</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.weld</groupId>
-			<artifactId>weld-core</artifactId>
-			<version>${weld.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.weld.servlet</groupId>
-			<artifactId>weld-servlet-core</artifactId>
-			<version>${weld.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
+			<version>1.0.3</version>
 		</dependency>
 
 		<!-- TEST DEPENDENCIES -->
-
-		<!-- <dependency>
-			<groupId>com.jeffskj</groupId>
-			<artifactId>persistence-tester</artifactId>
-			<version>0.1-SNAPSHOT</version>
-			<scope>test</scope>
-		</dependency> -->
-
-		<dependency>
-			<groupId>org.jboss.arquillian</groupId>
-			<artifactId>arquillian-junit</artifactId>
-			<version>${arquillian.version}</version>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.8.1</version>
+			<version>4.10</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
 			<version>3.0</version>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.jboss.resteasy</groupId>
-			<artifactId>tjws</artifactId>
-			<version>${resteasy.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -285,40 +88,6 @@
 	</build>
 	<profiles>
 		<profile>
-			<id>it</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-failsafe-plugin</artifactId>
-						<version>2.8</version>
-						<executions>
-							<execution>
-								<id>integration-test</id>
-								<goals>
-									<goal>integration-test</goal>
-								</goals>
-							</execution>
-							<execution>
-								<id>verify</id>
-								<goals>
-									<goal>verify</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-						<version>2.8</version>
-						<configuration>
-							<skipTests>true</skipTests>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-		<profile>
 			<id>jetty-embedded</id>
 			<dependencies>
 				<dependency>
@@ -345,21 +114,6 @@
 					<artifactId>jsp-api</artifactId>
 					<version>2.2</version>
 					<scope>test</scope>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>glassfish-embedded-3.1</id>
-			<dependencies>
-				<dependency>
-					<groupId>org.jboss.arquillian.container</groupId>
-					<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
-					<version>1.0.0.Alpha5</version>
-				</dependency>
-				<dependency>
-					<groupId>org.glassfish.extras</groupId>
-					<artifactId>glassfish-embedded-all</artifactId>
-					<version>3.1</version>
 				</dependency>
 			</dependencies>
 		</profile>
