@@ -1,4 +1,4 @@
-package org.cohortbackup.domain;
+package org.cohort.domain;
 
 import java.util.HashSet;
 import java.util.Set;

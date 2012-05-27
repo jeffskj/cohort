@@ -1,0 +1,17 @@
+The goal of Cohort is to provide a library for high-latency, low reliability network clustering communicating over HTTP.
+
+High level design ideas:
+ - p2p based with no master
+ - Required operations: list members of a swarm (name?), add member, remove member
+ - loose consistency on swarm membership, total membership = sum of lists of members from all members
+ - event based async messaging api (possibly use https://github.com/sonatype/async-http-client under the covers)
+    - use jackson to marshall messages in json
+    - listen with servlet (3.0) 
+    - optionally permanently queue messages and retry periodically
+    
+Membership join protocol
+ - join request issued by new member
+    - recieves successful response with list of known members
+    - send join request to all other known members
+        - using guaranteed delivery system just pretend acknowledged, 
+          any attempted communication with them will fail anyway if initial failed 
