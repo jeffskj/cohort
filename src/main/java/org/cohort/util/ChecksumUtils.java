@@ -1,4 +1,4 @@
-package org.cohortbackup.util;
+package org.cohort.util;
 
 import java.io.BufferedInputStream;
 import java.io.File;
