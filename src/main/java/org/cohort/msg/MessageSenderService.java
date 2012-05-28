@@ -3,10 +3,13 @@ package org.cohort.msg;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
+import java.util.Date;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
 import org.cohort.domain.Node;
@@ -17,8 +20,9 @@ import com.ning.http.client.AsyncHttpClient;
 import com.ning.http.client.Response;
 
 public class MessageSenderService {
+    private ExecutorService responseReaderExecutor = Executors.newFixedThreadPool(5);
+    private ScheduledExecutorService failedMessageRetryExecutor = Executors.newScheduledThreadPool(1);
     
-    private ExecutorService responseReaderExecutors = Executors.newFixedThreadPool(5);
     private AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
     
     private File workingDir;
@@ -37,7 +41,7 @@ public class MessageSenderService {
     private <Resp> void sendRequest(final ResponseHandler<Resp> responseHandler, final String url, final File body) throws IOException {
         System.out.println("sending request to: " + url + " with file: " + body);
         final Future<?> response = asyncHttpClient.preparePost(url).setBody(body).execute(new CompletionHandler<Resp>(responseHandler));
-        responseReaderExecutors.execute(new Runnable() {
+        responseReaderExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -45,12 +49,14 @@ public class MessageSenderService {
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 } catch (ExecutionException e) {
-                    try {
-                        sendRequest(responseHandler, url, body);
-                    } catch (IOException e1) {
-                        throw new RuntimeException(e1);
-                    }
-                }
+                    Message message = new Message();
+                    message.attempts = 1;
+                    message.lastAttempt = new Date();
+                    message.requestPayload = body;
+                    message.responseHandler = responseHandler;
+                    message.url = url;
+                    failedMessageRetryExecutor.schedule(new Resend(message), message.attempts * 2, TimeUnit.SECONDS);
+                } 
             }
         });
     }
@@ -64,6 +70,34 @@ public class MessageSenderService {
         return String.format("http://%s:%s/cohort/%s", node.getIpAddress(), node.getPort(), requestType.getName());
     }
 
+    public class Resend implements Runnable {
+        private final Message message;
+
+        public Resend(Message message) {
+            this.message = message;
+        }
+
+        @Override
+        public void run() {
+            try {
+                sendRequest(message.responseHandler, message.url, message.requestPayload);
+            } catch (Exception e) {
+                message.attempts += 1;
+                message.lastAttempt = new Date();
+                failedMessageRetryExecutor.schedule(this, message.attempts * 2, TimeUnit.SECONDS);
+            }
+        }
+
+    }
+    
+    private static class Message {
+        private File requestPayload;
+        private String url;
+        private ResponseHandler<?> responseHandler;
+        private int attempts = 0;
+        private Date lastAttempt;
+    }
+    
     private static class CompletionHandler<Resp> extends AsyncCompletionHandler<Resp> {
         private final ResponseHandler<Resp> responseHandler;
 
@@ -87,4 +121,6 @@ public class MessageSenderService {
             return (Class<T>) superclass.getActualTypeArguments()[0];
         }
     }
+    
+    public class MessageSendFailure extends RuntimeException {}
 }
