@@ -12,7 +12,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
-import org.cohort.domain.Node;
+import org.cohort.swarm.Member;
 import org.cohort.util.JAXBUtils;
 
 import com.ning.http.client.AsyncCompletionHandler;
@@ -31,16 +31,16 @@ public class MessageSenderService {
         this.workingDir = workingDir;
     }
     
-    public <Req, Resp> void sendMessage(Node node, Req request, final ResponseHandler<Resp> responseHandler) throws IOException {
-        String url = getUrl(node, request.getClass());
-        File f = createFile(node, request.getClass());
+    public <REQ, RESP> void sendMessage(Member member, REQ request, final ResponseHandler<RESP> responseHandler) throws IOException {
+        String url = getUrl(member, request.getClass());
+        File f = createFile(member, request.getClass());
         FileUtils.copyInputStreamToFile(JAXBUtils.marshalGzipped(request), f);
         sendRequest(responseHandler, url, f);
     }
     
-    private <Resp> void sendRequest(final ResponseHandler<Resp> responseHandler, final String url, final File body) throws IOException {
+    private <RESP> void sendRequest(final ResponseHandler<RESP> responseHandler, final String url, final File body) throws IOException {
         System.out.println("sending request to: " + url + " with file: " + body);
-        final Future<?> response = asyncHttpClient.preparePost(url).setBody(body).execute(new CompletionHandler<Resp>(responseHandler));
+        final Future<?> response = asyncHttpClient.preparePost(url).setBody(body).execute(new CompletionHandler<RESP>(responseHandler));
         responseReaderExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -61,12 +61,12 @@ public class MessageSenderService {
         });
     }
     
-    private File createFile(Node node, Class<?> type) {
+    private File createFile(Member node, Class<?> type) {
         return new File(workingDir, System.currentTimeMillis() + "-" + node.getId() + "-" + type.getName());
     }
 
     
-    private String getUrl(Node node, Class<?> requestType) {
+    private String getUrl(Member node, Class<?> requestType) {
         return String.format("http://%s:%s/cohort/%s", node.getIpAddress(), node.getPort(), requestType.getName());
     }
 

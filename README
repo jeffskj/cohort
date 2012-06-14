@@ -5,7 +5,7 @@ High level design ideas:
  - Required operations: list members of a swarm (name?), add member, remove member
  - loose consistency on swarm membership, total membership = sum of lists of members from all members
  - event based async messaging api (possibly use https://github.com/sonatype/async-http-client under the covers)
-    - use jackson to marshall messages in json
+    - use JAXB to marshall messages to XML
     - listen with servlet (3.0) 
     - optionally permanently queue messages and retry periodically
     

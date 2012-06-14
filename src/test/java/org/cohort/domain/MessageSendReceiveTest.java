@@ -4,6 +4,7 @@ import org.cohort.msg.MessageSenderService;
 import org.cohort.msg.MessageServlet;
 import org.cohort.msg.RequestHandler;
 import org.cohort.msg.ResponseHandler;
+import org.cohort.swarm.Member;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -42,7 +43,7 @@ public class MessageSendReceiveTest {
 //        server.start();
         
         
-        Node n = new Node();
+        Member n = new Member();
         n.setIpAddress("localhost");
         n.setPort(8080);
         
