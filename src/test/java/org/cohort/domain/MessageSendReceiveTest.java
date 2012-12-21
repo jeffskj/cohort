@@ -1,10 +1,10 @@
 package org.cohort.domain;
 
+import org.cohort.group.Member;
 import org.cohort.msg.MessageSenderService;
 import org.cohort.msg.MessageServlet;
 import org.cohort.msg.RequestHandler;
 import org.cohort.msg.ResponseHandler;
-import org.cohort.swarm.Member;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;

@@ -12,7 +12,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.io.FileUtils;
-import org.cohort.swarm.Member;
+import org.cohort.group.Member;
 import org.cohort.util.JAXBUtils;
 
 import com.ning.http.client.AsyncCompletionHandler;
